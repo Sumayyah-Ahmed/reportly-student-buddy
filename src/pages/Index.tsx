@@ -1,79 +1,206 @@
 import { useState } from "react";
-import { Search, GraduationCap, FileText, User } from "lucide-react";
+import { Search, FileText, User, Send, Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-const teachers = [
+interface Student {
+  id: number;
+  name: string;
+  class: string;
+  overallPercentage: number;
+  attendance: {
+    status: "Good" | "Ok" | "Poor";
+    percentage: number;
+  };
+  subjects: {
+    mathematics: number;
+    science: number;
+    english: number;
+  };
+}
+
+interface Teacher {
+  id: number;
+  name: string;
+  class: string;
+  avatar?: string;
+  students: Student[];
+}
+
+const teachers: Teacher[] = [
   {
     id: 1,
     name: "Mr M",
-    subject: "Mathematics",
+    class: "Class 3A",
     students: [
-      { id: 1, name: "Emma Johnson", grade: "A" },
-      { id: 2, name: "Liam Williams", grade: "B+" },
-      { id: 3, name: "Olivia Brown", grade: "A-" },
+      {
+        id: 1,
+        name: "Emma Johnson",
+        class: "Class 3A",
+        overallPercentage: 94.5,
+        attendance: { status: "Good", percentage: 95.0 },
+        subjects: { mathematics: 96, science: 94, english: 94 },
+      },
+      {
+        id: 2,
+        name: "Liam Williams",
+        class: "Class 3A",
+        overallPercentage: 87.0,
+        attendance: { status: "Ok", percentage: 88.0 },
+        subjects: { mathematics: 89, science: 86, english: 86 },
+      },
+      {
+        id: 3,
+        name: "Olivia Brown",
+        class: "Class 3A",
+        overallPercentage: 91.3,
+        attendance: { status: "Good", percentage: 93.0 },
+        subjects: { mathematics: 93, science: 90, english: 91 },
+      },
     ],
   },
   {
     id: 2,
     name: "Mr N",
-    subject: "Science",
+    class: "Class 4B",
     students: [
-      { id: 4, name: "Noah Davis", grade: "B" },
-      { id: 5, name: "Ava Martinez", grade: "A" },
-      { id: 6, name: "Sophia Garcia", grade: "B+" },
+      {
+        id: 4,
+        name: "Noah Davis",
+        class: "Class 4B",
+        overallPercentage: 85.7,
+        attendance: { status: "Ok", percentage: 86.0 },
+        subjects: { mathematics: 87, science: 85, english: 85 },
+      },
+      {
+        id: 5,
+        name: "Ava Martinez",
+        class: "Class 4B",
+        overallPercentage: 93.7,
+        attendance: { status: "Good", percentage: 95.0 },
+        subjects: { mathematics: 95, science: 93, english: 93 },
+      },
+      {
+        id: 6,
+        name: "Sophia Garcia",
+        class: "Class 4B",
+        overallPercentage: 88.3,
+        attendance: { status: "Ok", percentage: 89.0 },
+        subjects: { mathematics: 90, science: 87, english: 88 },
+      },
     ],
   },
   {
     id: 3,
     name: "Mrs B",
-    subject: "English Literature",
+    class: "Class 5A",
     students: [
-      { id: 7, name: "Isabella Rodriguez", grade: "A" },
-      { id: 8, name: "Mason Wilson", grade: "B" },
-      { id: 9, name: "Mia Anderson", grade: "A-" },
+      {
+        id: 7,
+        name: "Isabella Rodriguez",
+        class: "Class 5A",
+        overallPercentage: 95.0,
+        attendance: { status: "Good", percentage: 96.0 },
+        subjects: { mathematics: 96, science: 95, english: 94 },
+      },
+      {
+        id: 8,
+        name: "Mason Wilson",
+        class: "Class 5A",
+        overallPercentage: 84.3,
+        attendance: { status: "Ok", percentage: 85.0 },
+        subjects: { mathematics: 86, science: 83, english: 84 },
+      },
+      {
+        id: 9,
+        name: "Mia Anderson",
+        class: "Class 5A",
+        overallPercentage: 90.7,
+        attendance: { status: "Good", percentage: 92.0 },
+        subjects: { mathematics: 92, science: 90, english: 90 },
+      },
     ],
   },
   {
     id: 4,
     name: "Mrs F",
-    subject: "History",
+    class: "Class 6C",
     students: [
-      { id: 10, name: "James Taylor", grade: "B+" },
-      { id: 11, name: "Charlotte Thomas", grade: "A" },
-      { id: 12, name: "Benjamin Moore", grade: "B" },
+      {
+        id: 10,
+        name: "James Taylor",
+        class: "Class 6C",
+        overallPercentage: 89.0,
+        attendance: { status: "Good", percentage: 90.0 },
+        subjects: { mathematics: 91, science: 88, english: 88 },
+      },
+      {
+        id: 11,
+        name: "Charlotte Thomas",
+        class: "Class 6C",
+        overallPercentage: 94.3,
+        attendance: { status: "Good", percentage: 95.0 },
+        subjects: { mathematics: 96, science: 93, english: 94 },
+      },
+      {
+        id: 12,
+        name: "Benjamin Moore",
+        class: "Class 6C",
+        overallPercentage: 86.0,
+        attendance: { status: "Ok", percentage: 87.0 },
+        subjects: { mathematics: 88, science: 85, english: 85 },
+      },
     ],
   },
   {
     id: 5,
     name: "Mrs S",
-    subject: "Art & Design",
+    class: "Class 7D",
     students: [
-      { id: 13, name: "Amelia Jackson", grade: "A" },
-      { id: 14, name: "Lucas Martin", grade: "A-" },
-      { id: 15, name: "Harper Lee", grade: "B+" },
+      {
+        id: 13,
+        name: "Amelia Jackson",
+        class: "Class 7D",
+        overallPercentage: 95.7,
+        attendance: { status: "Good", percentage: 97.0 },
+        subjects: { mathematics: 97, science: 95, english: 95 },
+      },
+      {
+        id: 14,
+        name: "Lucas Martin",
+        class: "Class 7D",
+        overallPercentage: 91.0,
+        attendance: { status: "Good", percentage: 92.0 },
+        subjects: { mathematics: 93, science: 90, english: 90 },
+      },
+      {
+        id: 15,
+        name: "Harper Lee",
+        class: "Class 7D",
+        overallPercentage: 88.7,
+        attendance: { status: "Ok", percentage: 89.0 },
+        subjects: { mathematics: 90, science: 88, english: 88 },
+      },
     ],
   },
 ];
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedStudent, setSelectedStudent] = useState<{ name: string; teacher: string; subject: string } | null>(null);
+  const [selectedTeacher] = useState<Teacher>(teachers[0]);
+  const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
   const [report, setReport] = useState("");
 
-  const filteredTeachers = teachers.filter((teacher) => {
+  const filteredStudents = selectedTeacher.students.filter((student) => {
     const query = searchQuery.toLowerCase();
-    const teacherMatch = teacher.name.toLowerCase().includes(query);
-    const studentMatch = teacher.students.some((student) =>
-      student.name.toLowerCase().includes(query)
-    );
-    return teacherMatch || studentMatch;
+    return student.name.toLowerCase().includes(query);
   });
 
   const handleSendReport = () => {
@@ -86,74 +213,119 @@ const Index = () => {
     setSelectedStudent(null);
   };
 
+  const getAttendanceBadgeColor = (status: string) => {
+    if (status === "Good") return "bg-success text-success-foreground";
+    if (status === "Ok") return "bg-accent text-accent-foreground";
+    return "bg-destructive text-destructive-foreground";
+  };
+
+  const getPercentageBadgeColor = (percentage: number) => {
+    if (percentage >= 90) return "bg-success text-success-foreground";
+    if (percentage >= 80) return "bg-accent text-accent-foreground";
+    return "bg-destructive text-destructive-foreground";
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-muted">
-      <header className="border-b bg-card/50 backdrop-blur-sm sticky top-0 z-10 shadow-sm">
-        <div className="container mx-auto px-4 py-6">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="p-2 rounded-lg bg-gradient-to-br from-primary to-accent">
-              <GraduationCap className="h-8 w-8 text-primary-foreground" />
+    <div className="min-h-screen bg-background">
+      <header className="border-b bg-card sticky top-0 z-10 shadow-sm">
+        <div className="container mx-auto px-4 sm:px-6 py-6">
+          <div className="flex items-center justify-between gap-4 flex-wrap">
+            <div className="flex items-center gap-4">
+              <Avatar className="h-16 w-16 border-2 border-primary">
+                <AvatarImage src={selectedTeacher.avatar} />
+                <AvatarFallback className="bg-primary text-primary-foreground text-xl font-bold">
+                  {selectedTeacher.name.split(' ').map(n => n[0]).join('')}
+                </AvatarFallback>
+              </Avatar>
+              <div>
+                <h1 className="text-2xl sm:text-3xl font-bold text-foreground">
+                  {selectedTeacher.name}
+                </h1>
+                <p className="text-sm text-muted-foreground">
+                  {selectedTeacher.class} - {selectedTeacher.students.length} Students
+                </p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                Grade Manager
-              </h1>
-              <p className="text-sm text-muted-foreground">Track and manage student reports</p>
-            </div>
-          </div>
-          
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
-            <Input
-              placeholder="Search by teacher or student name..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 h-12 bg-background/60 border-border/50 focus:border-primary transition-all"
-            />
+            <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
+              <Plus className="h-4 w-4 mr-2" />
+              Add Student
+            </Button>
           </div>
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredTeachers.map((teacher) => (
-            <Card key={teacher.id} className="hover:shadow-lg transition-all duration-300 border-border/50 bg-card/80 backdrop-blur-sm">
-              <CardHeader>
-                <div className="flex items-start justify-between">
-                  <div>
-                    <CardTitle className="text-xl font-bold text-foreground">{teacher.name}</CardTitle>
-                    <CardDescription className="flex items-center gap-2 mt-2">
-                      <Badge variant="secondary" className="font-medium">
-                        {teacher.subject}
-                      </Badge>
-                    </CardDescription>
+      <main className="container mx-auto px-4 sm:px-6 py-6">
+        <div className="mb-6">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
+            <Input
+              placeholder="Search students..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-10 h-11"
+            />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {filteredStudents.map((student) => (
+            <Card key={student.id} className="hover:shadow-lg transition-all duration-200">
+              <CardContent className="p-6">
+                <div className="space-y-4">
+                  {/* Student Header */}
+                  <div className="flex items-start justify-between">
+                    <div className="flex items-center gap-3">
+                      <Avatar className="h-14 w-14 bg-primary">
+                        <AvatarFallback className="bg-primary text-primary-foreground">
+                          <User className="h-6 w-6" />
+                        </AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <h3 className="text-lg font-bold text-foreground">{student.name}</h3>
+                        <p className="text-sm text-muted-foreground">{student.class}</p>
+                      </div>
+                    </div>
+                    <Badge className={`${getPercentageBadgeColor(student.overallPercentage)} font-semibold px-3 py-1`}>
+                      {student.overallPercentage.toFixed(1)}%
+                    </Badge>
                   </div>
-                  <div className="p-2 rounded-full bg-primary/10">
-                    <User className="h-5 w-5 text-primary" />
+
+                  {/* Attendance */}
+                  <div className="flex items-center justify-between py-2">
+                    <span className="text-sm text-muted-foreground">Attendance</span>
+                    <Badge className={`${getAttendanceBadgeColor(student.attendance.status)} font-medium`}>
+                      {student.attendance.status}
+                    </Badge>
                   </div>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  <p className="text-sm font-semibold text-muted-foreground mb-3">Students ({teacher.students.length})</p>
-                  {teacher.students.map((student) => (
-                    <Dialog key={student.id}>
+
+                  {/* Subject Scores */}
+                  <div className="space-y-2 pt-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-muted-foreground">Mathematics</span>
+                      <span className="text-sm font-bold text-foreground">{student.subjects.mathematics}%</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-muted-foreground">Science</span>
+                      <span className="text-sm font-bold text-foreground">{student.subjects.science}%</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-muted-foreground">English</span>
+                      <span className="text-sm font-bold text-foreground">{student.subjects.english}%</span>
+                    </div>
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="flex gap-3 pt-4">
+                    <Dialog>
                       <DialogTrigger asChild>
-                        <button
-                          onClick={() => setSelectedStudent({ 
-                            name: student.name, 
-                            teacher: teacher.name,
-                            subject: teacher.subject 
-                          })}
-                          className="w-full flex items-center justify-between p-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-all duration-200 group"
+                        <Button 
+                          variant="outline" 
+                          className="flex-1"
+                          onClick={() => setSelectedStudent(student)}
                         >
-                          <span className="font-medium text-foreground group-hover:text-primary transition-colors">
-                            {student.name}
-                          </span>
-                          <Badge variant="outline" className="bg-accent/10 text-accent border-accent/20 font-semibold">
-                            {student.grade}
-                          </Badge>
-                        </button>
+                          <FileText className="h-4 w-4 mr-2" />
+                          View Report
+                        </Button>
                       </DialogTrigger>
                       <DialogContent className="sm:max-w-[500px]">
                         <DialogHeader>
@@ -166,16 +338,22 @@ const Index = () => {
                           <div className="grid grid-cols-2 gap-4">
                             <div>
                               <Label className="text-xs text-muted-foreground">Teacher</Label>
-                              <p className="font-semibold text-foreground">{teacher.name}</p>
+                              <p className="font-semibold text-foreground">{selectedTeacher.name}</p>
                             </div>
                             <div>
-                              <Label className="text-xs text-muted-foreground">Subject</Label>
-                              <p className="font-semibold text-foreground">{teacher.subject}</p>
+                              <Label className="text-xs text-muted-foreground">Class</Label>
+                              <p className="font-semibold text-foreground">{student.class}</p>
                             </div>
                             <div>
-                              <Label className="text-xs text-muted-foreground">Current Grade</Label>
-                              <Badge variant="outline" className="bg-accent/10 text-accent border-accent/20">
-                                {student.grade}
+                              <Label className="text-xs text-muted-foreground">Overall</Label>
+                              <Badge className={`${getPercentageBadgeColor(student.overallPercentage)}`}>
+                                {student.overallPercentage.toFixed(1)}%
+                              </Badge>
+                            </div>
+                            <div>
+                              <Label className="text-xs text-muted-foreground">Attendance</Label>
+                              <Badge className={`${getAttendanceBadgeColor(student.attendance.status)}`}>
+                                {student.attendance.status}
                               </Badge>
                             </div>
                           </div>
@@ -191,28 +369,38 @@ const Index = () => {
                           </div>
                           <Button 
                             onClick={handleSendReport}
-                            className="w-full bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-opacity"
+                            className="w-full bg-primary hover:bg-primary/90"
                           >
-                            <FileText className="h-4 w-4 mr-2" />
+                            <Send className="h-4 w-4 mr-2" />
                             Send Report
                           </Button>
                         </div>
                       </DialogContent>
                     </Dialog>
-                  ))}
+
+                    <Button 
+                      className="flex-1 bg-primary hover:bg-primary/90"
+                      onClick={() => {
+                        toast.success(`Report sent for ${student.name}!`);
+                      }}
+                    >
+                      <Send className="h-4 w-4 mr-2" />
+                      Send
+                    </Button>
+                  </div>
                 </div>
               </CardContent>
             </Card>
           ))}
         </div>
 
-        {filteredTeachers.length === 0 && (
+        {filteredStudents.length === 0 && (
           <div className="text-center py-16">
             <div className="mx-auto w-24 h-24 rounded-full bg-muted flex items-center justify-center mb-4">
               <Search className="h-12 w-12 text-muted-foreground" />
             </div>
-            <h3 className="text-xl font-semibold text-foreground mb-2">No results found</h3>
-            <p className="text-muted-foreground">Try searching for a different teacher or student name</p>
+            <h3 className="text-xl font-semibold text-foreground mb-2">No students found</h3>
+            <p className="text-muted-foreground">Try searching with a different name</p>
           </div>
         )}
       </main>
