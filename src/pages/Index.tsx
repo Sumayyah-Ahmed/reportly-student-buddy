@@ -293,39 +293,39 @@ const Index = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
           {filteredStudents.map((student) => (
             <Card key={student.id} className="hover:shadow-lg transition-all duration-200">
-              <CardContent className="p-6">
-                <div className="space-y-4">
+              <CardContent className="p-5">
+                <div className="space-y-3">
                   {/* Student Header */}
                   <div className="flex items-start justify-between">
                     <div className="flex items-center gap-3">
-                      <Avatar className="h-14 w-14 bg-primary">
+                      <Avatar className="h-12 w-12 bg-primary">
                         <AvatarFallback className="bg-primary text-primary-foreground">
-                          <User className="h-6 w-6" />
+                          <User className="h-5 w-5" />
                         </AvatarFallback>
                       </Avatar>
                       <div>
-                        <h3 className="text-lg font-bold text-foreground">{student.name}</h3>
-                        <p className="text-sm text-muted-foreground">{student.class}</p>
+                        <h3 className="text-base font-bold text-foreground">{student.name}</h3>
+                        <p className="text-xs text-muted-foreground">{student.class}</p>
                       </div>
                     </div>
-                    <Badge className={`${getPercentageBadgeColor(student.overallPercentage)} font-semibold px-3 py-1`}>
+                    <Badge className={`${getPercentageBadgeColor(student.overallPercentage)} font-semibold px-2.5 py-0.5 text-sm`}>
                       {student.overallPercentage.toFixed(1)}%
                     </Badge>
                   </div>
 
                   {/* Attendance */}
-                  <div className="flex items-center justify-between py-2">
+                  <div className="flex items-center justify-between py-1.5">
                     <span className="text-sm text-muted-foreground">Attendance</span>
-                    <Badge className={`${getAttendanceBadgeColor(student.attendance.status)} font-medium`}>
+                    <Badge className={`${getAttendanceBadgeColor(student.attendance.status)} font-medium text-sm px-3 py-0.5`}>
                       {student.attendance.status}
                     </Badge>
                   </div>
 
                   {/* Subject Scores */}
-                  <div className="space-y-2 pt-2">
+                  <div className="space-y-1.5 pt-1">
                     <div className="flex items-center justify-between">
                       <span className="text-sm text-muted-foreground">Mathematics</span>
                       <span className="text-sm font-bold text-foreground">{student.subjects.mathematics}%</span>
@@ -341,7 +341,7 @@ const Index = () => {
                   </div>
 
                   {/* Action Buttons */}
-                  <div className="flex gap-3 pt-4">
+                  <div className="flex gap-2.5 pt-3">
                     <Dialog>
                       <DialogTrigger asChild>
                         <Button 
