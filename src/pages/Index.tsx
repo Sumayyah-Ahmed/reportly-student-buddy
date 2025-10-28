@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Search, FileText, User, Send, Plus } from "lucide-react";
+import { Search, FileText, User, Send, Plus, ChevronDown } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -9,6 +9,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface Student {
   id: number;
@@ -194,9 +201,11 @@ const teachers: Teacher[] = [
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedTeacher] = useState<Teacher>(teachers[0]);
+  const [selectedTeacherId, setSelectedTeacherId] = useState<number>(teachers[0].id);
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
   const [report, setReport] = useState("");
+
+  const selectedTeacher = teachers.find(t => t.id === selectedTeacherId) || teachers[0];
 
   const filteredStudents = selectedTeacher.students.filter((student) => {
     const query = searchQuery.toLowerCase();
@@ -238,12 +247,29 @@ const Index = () => {
                 </AvatarFallback>
               </Avatar>
               <div>
-                <h1 className="text-2xl sm:text-3xl font-bold text-foreground">
-                  {selectedTeacher.name}
-                </h1>
-                <p className="text-sm text-muted-foreground">
-                  {selectedTeacher.class} - {selectedTeacher.students.length} Students
-                </p>
+                <Select value={selectedTeacherId.toString()} onValueChange={(value) => setSelectedTeacherId(Number(value))}>
+                  <SelectTrigger className="w-[250px] h-auto border-0 p-0 focus:ring-0 hover:bg-transparent">
+                    <div className="text-left">
+                      <h1 className="text-2xl sm:text-3xl font-bold text-foreground flex items-center gap-2">
+                        <SelectValue />
+                        <ChevronDown className="h-5 w-5 text-muted-foreground" />
+                      </h1>
+                      <p className="text-sm text-muted-foreground">
+                        {selectedTeacher.class} - {selectedTeacher.students.length} Students
+                      </p>
+                    </div>
+                  </SelectTrigger>
+                  <SelectContent className="z-50">
+                    {teachers.map((teacher) => (
+                      <SelectItem key={teacher.id} value={teacher.id.toString()}>
+                        <div className="flex items-center gap-2">
+                          <span className="font-semibold">{teacher.name}</span>
+                          <span className="text-muted-foreground text-sm">- {teacher.class}</span>
+                        </div>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
             </div>
             <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
@@ -267,7 +293,7 @@ const Index = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-5xl mx-auto">
           {filteredStudents.map((student) => (
             <Card key={student.id} className="hover:shadow-lg transition-all duration-200">
               <CardContent className="p-6">
