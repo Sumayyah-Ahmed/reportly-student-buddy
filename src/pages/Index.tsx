@@ -214,10 +214,16 @@ const Index = () => {
 
   const selectedTeacher = teachers.find(t => t.id === selectedTeacherId) || teachers[0];
 
-  const filteredStudents = selectedTeacher.students.filter((student) => {
-    const query = searchQuery.toLowerCase();
-    return student.name.toLowerCase().includes(query);
-  });
+  // Get all students from all teachers for search
+  const allStudents = teachers.flatMap(teacher => teacher.students);
+
+  // Filter students based on search query
+  const filteredStudents = searchQuery.trim() 
+    ? allStudents.filter((student) => {
+        const query = searchQuery.toLowerCase();
+        return student.name.toLowerCase().includes(query);
+      })
+    : selectedTeacher.students; // Show selected teacher's students when no search
 
   const handleSendReport = () => {
     if (!report.trim()) {
