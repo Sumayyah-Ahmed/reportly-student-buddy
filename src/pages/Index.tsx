@@ -278,11 +278,10 @@ const Index = () => {
               </Avatar>
               <div>
                 <Select value={selectedTeacherId.toString()} onValueChange={(value) => setSelectedTeacherId(Number(value))}>
-                  <SelectTrigger className="w-[250px] h-auto border-0 p-0 focus:ring-0 hover:bg-transparent">
+                  <SelectTrigger className="w-[250px] h-auto border rounded-lg p-3 focus:ring-2 hover:bg-muted/50">
                     <div className="text-left">
-                      <h1 className="text-2xl sm:text-3xl font-bold text-foreground flex items-center gap-2">
+                      <h1 className="text-2xl sm:text-3xl font-bold text-foreground">
                         <SelectValue />
-                        <ChevronDown className="h-5 w-5 text-muted-foreground" />
                       </h1>
                       <p className="text-sm text-muted-foreground">
                         {selectedTeacher.class} - {selectedTeacher.students.length} Students
