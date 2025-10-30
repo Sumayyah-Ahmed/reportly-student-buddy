@@ -267,23 +267,28 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <header className="border-b bg-card sticky top-0 z-10 shadow-sm">
-        <div className="container mx-auto px-4 sm:px-6 py-6">
-          <div className="flex items-center justify-between gap-4 flex-wrap">
-            <div className="flex items-center gap-4">
-              <Avatar className="h-16 w-16 border-2 border-primary">
+        <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-6">
+          {/* Welcome Message */}
+          <div className="mb-4">
+            <p className="text-sm sm:text-base text-muted-foreground">Welcome back,</p>
+          </div>
+          
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="flex items-center gap-3 sm:gap-4 w-full sm:w-auto">
+              <Avatar className="h-12 w-12 sm:h-16 sm:w-16 border-2 border-primary flex-shrink-0">
                 <AvatarImage src={selectedTeacher.avatar} />
-                <AvatarFallback className="bg-primary text-primary-foreground text-xl font-bold">
+                <AvatarFallback className="bg-primary text-primary-foreground text-lg sm:text-xl font-bold">
                   {selectedTeacher.name.split(' ').map(n => n[0]).join('')}
                 </AvatarFallback>
               </Avatar>
-              <div>
+              <div className="flex-1 min-w-0">
                 <Select value={selectedTeacherId.toString()} onValueChange={(value) => setSelectedTeacherId(Number(value))}>
-                  <SelectTrigger className="w-[250px] h-auto border rounded-lg p-3 focus:ring-2 hover:bg-muted/50">
+                  <SelectTrigger className="w-full sm:w-[250px] h-auto border rounded-lg p-2 sm:p-3 focus:ring-2 hover:bg-muted/50">
                     <div className="text-left">
-                      <h1 className="text-2xl sm:text-3xl font-bold text-foreground">
+                      <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground truncate">
                         <SelectValue />
                       </h1>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-xs sm:text-sm text-muted-foreground truncate">
                         {selectedTeacher.class} - {selectedTeacher.students.length} Students
                       </p>
                     </div>
@@ -302,7 +307,7 @@ const Index = () => {
               </div>
             </div>
             {selectedTeacherId === 5 && (
-              <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
+              <Button className="bg-primary text-primary-foreground hover:bg-primary/90 w-full sm:w-auto">
                 <Plus className="h-4 w-4 mr-2" />
                 Add Student
               </Button>
@@ -311,23 +316,23 @@ const Index = () => {
         </div>
       </header>
 
-      <main className="container mx-auto px-4 sm:px-6 py-6">
-        <div className="mb-6">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
+      <main className="container mx-auto px-4 sm:px-6 py-4 sm:py-6">
+        <div className="mb-4 sm:mb-6">
+          <div className="relative max-w-full sm:max-w-md">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4 sm:h-5 sm:w-5" />
             <Input
               placeholder="Search students..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 h-11"
+              className="pl-9 sm:pl-10 h-10 sm:h-11 text-sm sm:text-base w-full"
             />
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-5">
           {filteredStudents.map((student) => (
             <Card key={student.id} className="hover:shadow-lg transition-all duration-200">
-              <CardContent className="p-5">
+              <CardContent className="p-4 sm:p-5">
                 <div className="space-y-3">
                   {/* Student Header */}
                   <div className="flex items-start justify-between">
