@@ -23,6 +23,8 @@ interface Student {
   id: number;
   name: string;
   class: string;
+  email?: string;
+  contact?: string;
   overallPercentage: number;
   attendance: {
     status: "Good" | "Ok" | "Poor";
@@ -53,6 +55,8 @@ const teachers: Teacher[] = [
         id: 1,
         name: "Emma Johnson",
         class: "Class 3A",
+        email: "emma.johnson@school.edu",
+        contact: "000-000-0000",
         overallPercentage: 94.5,
         attendance: { status: "Good", percentage: 95.0 },
         subjects: { mathematics: 96, science: 94, english: 94 },
@@ -229,8 +233,12 @@ const Index = () => {
     toast.success("PDF downloaded successfully!");
   };
 
-  const handleSendEmail = () => {
-    toast.info("No email available for this student");
+  const handleSendEmail = (student: Student) => {
+    if (student.email) {
+      toast.success(`Report sent to ${student.email}!`);
+    } else {
+      toast.info("No email available for this student");
+    }
   };
 
   const getAttendanceBadgeColor = (status: string) => {
@@ -320,6 +328,9 @@ const Index = () => {
                       <div>
                         <h3 className="text-base font-bold text-foreground">{student.name}</h3>
                         <p className="text-xs text-muted-foreground">{student.class}</p>
+                        {student.contact && (
+                          <p className="text-xs text-muted-foreground">{student.contact}</p>
+                        )}
                       </div>
                     </div>
                     <Badge className={`${getPercentageBadgeColor(student.overallPercentage)} font-semibold px-2.5 py-0.5 text-sm`}>
@@ -463,11 +474,12 @@ const Index = () => {
                                 Download PDF
                               </Button>
                               <Button 
-                                onClick={handleSendEmail}
+                                onClick={() => handleSendEmail(student)}
                                 className="flex-1 bg-primary hover:bg-primary/90"
+                                disabled={!student.email}
                               >
                                 <Mail className="h-4 w-4 mr-2" />
-                                No Email Available
+                                {student.email ? "Send Report" : "No Email Available"}
                               </Button>
                             </div>
                           </div>
