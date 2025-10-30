@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Search, FileText, User, Send, Plus, ChevronDown } from "lucide-react";
+import { Search, FileText, User, Send, Plus, ChevronDown, Download, Mail } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -9,6 +9,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Progress } from "@/components/ui/progress";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Select,
   SelectContent,
@@ -204,6 +206,7 @@ const Index = () => {
   const [selectedTeacherId, setSelectedTeacherId] = useState<number>(teachers[0].id);
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
   const [report, setReport] = useState("");
+  const [comments, setComments] = useState("");
 
   const selectedTeacher = teachers.find(t => t.id === selectedTeacherId) || teachers[0];
 
@@ -220,6 +223,14 @@ const Index = () => {
     toast.success(`Report sent for ${selectedStudent?.name}!`);
     setReport("");
     setSelectedStudent(null);
+  };
+
+  const handleDownloadPDF = () => {
+    toast.success("PDF downloaded successfully!");
+  };
+
+  const handleSendEmail = () => {
+    toast.info("No email available for this student");
   };
 
   const getAttendanceBadgeColor = (status: string) => {
@@ -353,54 +364,114 @@ const Index = () => {
                           View Report
                         </Button>
                       </DialogTrigger>
-                      <DialogContent className="sm:max-w-[500px]">
-                        <DialogHeader>
-                          <DialogTitle className="flex items-center gap-2">
-                            <FileText className="h-5 w-5 text-primary" />
-                            Create Report for {student.name}
-                          </DialogTitle>
+                      <DialogContent className="sm:max-w-[600px] max-h-[90vh]">
+                        <DialogHeader className="border-b pb-4">
+                          <DialogTitle className="text-xl font-bold">Student Report Card</DialogTitle>
+                          <p className="text-sm text-muted-foreground">Detailed academic report for {student.name}</p>
                         </DialogHeader>
-                        <div className="space-y-4 py-4">
-                          <div className="grid grid-cols-2 gap-4">
-                            <div>
-                              <Label className="text-xs text-muted-foreground">Teacher</Label>
-                              <p className="font-semibold text-foreground">{selectedTeacher.name}</p>
-                            </div>
-                            <div>
-                              <Label className="text-xs text-muted-foreground">Class</Label>
-                              <p className="font-semibold text-foreground">{student.class}</p>
-                            </div>
-                            <div>
-                              <Label className="text-xs text-muted-foreground">Overall</Label>
-                              <Badge className={`${getPercentageBadgeColor(student.overallPercentage)}`}>
+                        <ScrollArea className="max-h-[calc(90vh-120px)] pr-4">
+                          <div className="space-y-6 py-4">
+                            {/* Student Info */}
+                            <div className="flex items-start justify-between">
+                              <div>
+                                <h3 className="text-2xl font-bold text-foreground">{student.name}</h3>
+                                <p className="text-muted-foreground">{student.class}</p>
+                              </div>
+                              <Badge className={`${getPercentageBadgeColor(student.overallPercentage)} text-lg px-4 py-1`}>
                                 {student.overallPercentage.toFixed(1)}%
                               </Badge>
                             </div>
-                            <div>
-                              <Label className="text-xs text-muted-foreground">Attendance</Label>
-                              <Badge className={`${getAttendanceBadgeColor(student.attendance.status)}`}>
-                                {student.attendance.status}
-                              </Badge>
+
+                            {/* Attendance */}
+                            <div className="space-y-2 p-4 rounded-lg bg-muted/30">
+                              <h4 className="font-semibold text-foreground">Attendance</h4>
+                              <div className="flex items-center justify-between">
+                                <span className="text-sm text-muted-foreground">Overall Attendance Status</span>
+                                <Badge className={`${getAttendanceBadgeColor(student.attendance.status)}`}>
+                                  {student.attendance.status}
+                                </Badge>
+                              </div>
+                            </div>
+
+                            {/* Subject Breakdown */}
+                            <div className="space-y-4">
+                              <h4 className="font-semibold text-foreground">Subject Breakdown</h4>
+                              
+                              <div className="space-y-2">
+                                <div className="flex items-center justify-between mb-1">
+                                  <span className="text-sm font-medium text-foreground">Mathematics</span>
+                                  <Badge className={`${getPercentageBadgeColor(student.subjects.mathematics)}`}>
+                                    {student.subjects.mathematics}%
+                                  </Badge>
+                                </div>
+                                <Progress value={student.subjects.mathematics} className="h-2" />
+                              </div>
+
+                              <div className="space-y-2">
+                                <div className="flex items-center justify-between mb-1">
+                                  <span className="text-sm font-medium text-foreground">Science</span>
+                                  <Badge className={`${getPercentageBadgeColor(student.subjects.science)}`}>
+                                    {student.subjects.science}%
+                                  </Badge>
+                                </div>
+                                <Progress value={student.subjects.science} className="h-2" />
+                              </div>
+
+                              <div className="space-y-2">
+                                <div className="flex items-center justify-between mb-1">
+                                  <span className="text-sm font-medium text-foreground">English</span>
+                                  <Badge className={`${getPercentageBadgeColor(student.subjects.english)}`}>
+                                    {student.subjects.english}%
+                                  </Badge>
+                                </div>
+                                <Progress value={student.subjects.english} className="h-2" />
+                              </div>
+                            </div>
+
+                            {/* Overall Performance */}
+                            <div className="space-y-2 p-4 rounded-lg bg-muted/30">
+                              <h4 className="font-semibold text-foreground">Overall Performance</h4>
+                              <p className="text-sm text-muted-foreground">
+                                {student.overallPercentage >= 90 
+                                  ? "Excellent performance. Continue the good work!"
+                                  : student.overallPercentage >= 80
+                                  ? "Very good performance. Keep up the effort!"
+                                  : "Good performance. There's room for improvement."}
+                              </p>
+                            </div>
+
+                            {/* Additional Comments */}
+                            <div className="space-y-2">
+                              <Label htmlFor="comments" className="text-sm font-semibold">Additional Comments</Label>
+                              <Textarea
+                                id="comments"
+                                placeholder="Add any additional comments or observations about the student..."
+                                value={comments}
+                                onChange={(e) => setComments(e.target.value)}
+                                className="min-h-[100px] resize-none"
+                              />
+                            </div>
+
+                            {/* Action Buttons */}
+                            <div className="flex gap-3 pt-2">
+                              <Button 
+                                onClick={handleDownloadPDF}
+                                variant="outline"
+                                className="flex-1"
+                              >
+                                <Download className="h-4 w-4 mr-2" />
+                                Download PDF
+                              </Button>
+                              <Button 
+                                onClick={handleSendEmail}
+                                className="flex-1 bg-primary hover:bg-primary/90"
+                              >
+                                <Mail className="h-4 w-4 mr-2" />
+                                No Email Available
+                              </Button>
                             </div>
                           </div>
-                          <div>
-                            <Label htmlFor="report" className="text-sm font-semibold">Report Content</Label>
-                            <Textarea
-                              id="report"
-                              placeholder="Write your detailed report about the student's progress, behavior, and achievements..."
-                              value={report}
-                              onChange={(e) => setReport(e.target.value)}
-                              className="min-h-[150px] mt-2 resize-none"
-                            />
-                          </div>
-                          <Button 
-                            onClick={handleSendReport}
-                            className="w-full bg-primary hover:bg-primary/90"
-                          >
-                            <Send className="h-4 w-4 mr-2" />
-                            Send Report
-                          </Button>
-                        </div>
+                        </ScrollArea>
                       </DialogContent>
                     </Dialog>
 
