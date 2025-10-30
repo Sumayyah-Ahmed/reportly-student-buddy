@@ -50,6 +50,7 @@ const teachers: Teacher[] = [
     id: 1,
     name: "Mr M",
     class: "Class 3A",
+    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop",
     students: [
       {
         id: 1,
@@ -83,6 +84,7 @@ const teachers: Teacher[] = [
     id: 2,
     name: "Mr N",
     class: "Class 4B",
+    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop",
     students: [
       {
         id: 4,
@@ -114,6 +116,7 @@ const teachers: Teacher[] = [
     id: 3,
     name: "Mrs B",
     class: "Class 5A",
+    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop",
     students: [
       {
         id: 7,
@@ -145,6 +148,7 @@ const teachers: Teacher[] = [
     id: 4,
     name: "Mrs F",
     class: "Class 6C",
+    avatar: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=150&h=150&fit=crop",
     students: [
       {
         id: 10,
@@ -176,6 +180,7 @@ const teachers: Teacher[] = [
     id: 5,
     name: "Mrs S",
     class: "Class 7D",
+    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop",
     students: [
       {
         id: 13,
@@ -297,10 +302,12 @@ const Index = () => {
                 </Select>
               </div>
             </div>
-            <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
-              <Plus className="h-4 w-4 mr-2" />
-              Add Student
-            </Button>
+            {selectedTeacherId === 5 && (
+              <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
+                <Plus className="h-4 w-4 mr-2" />
+                Add Student
+              </Button>
+            )}
           </div>
         </div>
       </header>
