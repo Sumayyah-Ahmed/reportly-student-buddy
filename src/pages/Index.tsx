@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Search, FileText, User, Send, Plus, ChevronDown, Download, Mail } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Search, FileText, User, Send, Plus, ChevronDown, Download, Mail, Save } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Progress } from "@/components/ui/progress";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Slider } from "@/components/ui/slider";
 import {
   Select,
   SelectContent,
@@ -56,7 +57,7 @@ const teachers: Teacher[] = [
         id: 1,
         name: "Emma Johnson",
         class: "Class 3A",
-        email: "emma.johnson@school.edu",
+        email: "siddiquiaziz71@yahoo.com",
         contact: "000-000-0000",
         overallPercentage: 94.5,
         attendance: { status: "Good", percentage: 95.0 },
@@ -232,13 +233,21 @@ const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTeacherId, setSelectedTeacherId] = useState<number>(teachers[0].id);
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
+  const [editedStudent, setEditedStudent] = useState<Student | null>(null);
   const [report, setReport] = useState("");
   const [comments, setComments] = useState("");
+  const [studentsData, setStudentsData] = useState<Teacher[]>(teachers);
 
-  const selectedTeacher = teachers.find(t => t.id === selectedTeacherId) || teachers[0];
+  useEffect(() => {
+    if (selectedStudent) {
+      setEditedStudent({ ...selectedStudent });
+    }
+  }, [selectedStudent]);
+
+  const selectedTeacher = studentsData.find(t => t.id === selectedTeacherId) || studentsData[0];
 
   // Get all students from all teachers for search
-  const allStudents = teachers.flatMap(teacher => teacher.students);
+  const allStudents = studentsData.flatMap(teacher => teacher.students);
 
   // Filter students based on search query
   const filteredStudents = searchQuery.trim() 
@@ -268,6 +277,55 @@ const Index = () => {
     } else {
       toast.info("No email available for this student");
     }
+  };
+
+  const handleSaveGrades = () => {
+    if (!editedStudent) return;
+
+    setStudentsData(prevData => 
+      prevData.map(teacher => ({
+        ...teacher,
+        students: teacher.students.map(student => 
+          student.id === editedStudent.id ? editedStudent : student
+        )
+      }))
+    );
+
+    toast.success("Grades updated successfully!");
+  };
+
+  const updateSubjectGrade = (subject: 'mathematics' | 'science' | 'english', value: number) => {
+    if (!editedStudent) return;
+    
+    const updatedStudent = {
+      ...editedStudent,
+      subjects: {
+        ...editedStudent.subjects,
+        [subject]: value
+      }
+    };
+
+    // Recalculate overall percentage
+    const avg = (updatedStudent.subjects.mathematics + updatedStudent.subjects.science + updatedStudent.subjects.english) / 3;
+    updatedStudent.overallPercentage = Math.round(avg * 10) / 10;
+
+    setEditedStudent(updatedStudent);
+  };
+
+  const updateAttendance = (value: number) => {
+    if (!editedStudent) return;
+
+    let status: "Good" | "Ok" | "Poor" = "Good";
+    if (value < 80) status = "Poor";
+    else if (value < 90) status = "Ok";
+
+    setEditedStudent({
+      ...editedStudent,
+      attendance: {
+        percentage: value,
+        status
+      }
+    });
   };
 
   const getAttendanceBadgeColor = (status: string) => {
@@ -423,54 +481,130 @@ const Index = () => {
                                 <h3 className="text-2xl font-bold text-foreground">{student.name}</h3>
                                 <p className="text-muted-foreground">{student.class}</p>
                               </div>
-                              <Badge className={`${getPercentageBadgeColor(student.overallPercentage)} text-lg px-4 py-1`}>
-                                {student.overallPercentage.toFixed(1)}%
+                              <Badge className={`${getPercentageBadgeColor(editedStudent?.overallPercentage || student.overallPercentage)} text-lg px-4 py-1`}>
+                                {(editedStudent?.overallPercentage || student.overallPercentage).toFixed(1)}%
                               </Badge>
                             </div>
 
                             {/* Attendance */}
-                            <div className="space-y-2 p-4 rounded-lg bg-muted/30">
-                              <h4 className="font-semibold text-foreground">Attendance</h4>
+                            <div className="space-y-3 p-4 rounded-lg bg-muted/30">
                               <div className="flex items-center justify-between">
-                                <span className="text-sm text-muted-foreground">Overall Attendance Status</span>
-                                <Badge className={`${getAttendanceBadgeColor(student.attendance.status)}`}>
-                                  {student.attendance.status}
+                                <h4 className="font-semibold text-foreground">Attendance</h4>
+                                <Badge className={`${getAttendanceBadgeColor(editedStudent?.attendance.status || student.attendance.status)}`}>
+                                  {editedStudent?.attendance.status || student.attendance.status}
                                 </Badge>
+                              </div>
+                              <div className="space-y-2">
+                                <div className="flex items-center justify-between">
+                                  <Label className="text-sm">Attendance Percentage</Label>
+                                  <Input
+                                    type="number"
+                                    min="0"
+                                    max="100"
+                                    value={editedStudent?.attendance.percentage || student.attendance.percentage}
+                                    onChange={(e) => updateAttendance(Number(e.target.value))}
+                                    className="w-20 h-8 text-center"
+                                  />
+                                </div>
+                                <Slider
+                                  value={[editedStudent?.attendance.percentage || student.attendance.percentage]}
+                                  onValueChange={(value) => updateAttendance(value[0])}
+                                  max={100}
+                                  step={1}
+                                  className="w-full"
+                                />
                               </div>
                             </div>
 
                             {/* Subject Breakdown */}
                             <div className="space-y-4">
-                              <h4 className="font-semibold text-foreground">Subject Breakdown</h4>
+                              <div className="flex items-center justify-between">
+                                <h4 className="font-semibold text-foreground">Subject Breakdown</h4>
+                                <Button onClick={handleSaveGrades} size="sm" className="h-8">
+                                  <Save className="h-3 w-3 mr-1" />
+                                  Save Changes
+                                </Button>
+                              </div>
                               
-                              <div className="space-y-2">
-                                <div className="flex items-center justify-between mb-1">
+                              {/* Mathematics */}
+                              <div className="space-y-2 p-3 rounded-lg border">
+                                <div className="flex items-center justify-between mb-2">
                                   <span className="text-sm font-medium text-foreground">Mathematics</span>
-                                  <Badge className={`${getPercentageBadgeColor(student.subjects.mathematics)}`}>
-                                    {student.subjects.mathematics}%
-                                  </Badge>
+                                  <div className="flex items-center gap-2">
+                                    <Input
+                                      type="number"
+                                      min="0"
+                                      max="100"
+                                      value={editedStudent?.subjects.mathematics || student.subjects.mathematics}
+                                      onChange={(e) => updateSubjectGrade('mathematics', Number(e.target.value))}
+                                      className="w-16 h-8 text-center"
+                                    />
+                                    <Badge className={`${getPercentageBadgeColor(editedStudent?.subjects.mathematics || student.subjects.mathematics)}`}>
+                                      {editedStudent?.subjects.mathematics || student.subjects.mathematics}%
+                                    </Badge>
+                                  </div>
                                 </div>
-                                <Progress value={student.subjects.mathematics} className="h-2" />
+                                <Slider
+                                  value={[editedStudent?.subjects.mathematics || student.subjects.mathematics]}
+                                  onValueChange={(value) => updateSubjectGrade('mathematics', value[0])}
+                                  max={100}
+                                  step={1}
+                                  className="w-full"
+                                />
                               </div>
 
-                              <div className="space-y-2">
-                                <div className="flex items-center justify-between mb-1">
+                              {/* Science */}
+                              <div className="space-y-2 p-3 rounded-lg border">
+                                <div className="flex items-center justify-between mb-2">
                                   <span className="text-sm font-medium text-foreground">Science</span>
-                                  <Badge className={`${getPercentageBadgeColor(student.subjects.science)}`}>
-                                    {student.subjects.science}%
-                                  </Badge>
+                                  <div className="flex items-center gap-2">
+                                    <Input
+                                      type="number"
+                                      min="0"
+                                      max="100"
+                                      value={editedStudent?.subjects.science || student.subjects.science}
+                                      onChange={(e) => updateSubjectGrade('science', Number(e.target.value))}
+                                      className="w-16 h-8 text-center"
+                                    />
+                                    <Badge className={`${getPercentageBadgeColor(editedStudent?.subjects.science || student.subjects.science)}`}>
+                                      {editedStudent?.subjects.science || student.subjects.science}%
+                                    </Badge>
+                                  </div>
                                 </div>
-                                <Progress value={student.subjects.science} className="h-2" />
+                                <Slider
+                                  value={[editedStudent?.subjects.science || student.subjects.science]}
+                                  onValueChange={(value) => updateSubjectGrade('science', value[0])}
+                                  max={100}
+                                  step={1}
+                                  className="w-full"
+                                />
                               </div>
 
-                              <div className="space-y-2">
-                                <div className="flex items-center justify-between mb-1">
+                              {/* English */}
+                              <div className="space-y-2 p-3 rounded-lg border">
+                                <div className="flex items-center justify-between mb-2">
                                   <span className="text-sm font-medium text-foreground">English</span>
-                                  <Badge className={`${getPercentageBadgeColor(student.subjects.english)}`}>
-                                    {student.subjects.english}%
-                                  </Badge>
+                                  <div className="flex items-center gap-2">
+                                    <Input
+                                      type="number"
+                                      min="0"
+                                      max="100"
+                                      value={editedStudent?.subjects.english || student.subjects.english}
+                                      onChange={(e) => updateSubjectGrade('english', Number(e.target.value))}
+                                      className="w-16 h-8 text-center"
+                                    />
+                                    <Badge className={`${getPercentageBadgeColor(editedStudent?.subjects.english || student.subjects.english)}`}>
+                                      {editedStudent?.subjects.english || student.subjects.english}%
+                                    </Badge>
+                                  </div>
                                 </div>
-                                <Progress value={student.subjects.english} className="h-2" />
+                                <Slider
+                                  value={[editedStudent?.subjects.english || student.subjects.english]}
+                                  onValueChange={(value) => updateSubjectGrade('english', value[0])}
+                                  max={100}
+                                  step={1}
+                                  className="w-full"
+                                />
                               </div>
                             </div>
 
@@ -478,9 +612,9 @@ const Index = () => {
                             <div className="space-y-2 p-4 rounded-lg bg-muted/30">
                               <h4 className="font-semibold text-foreground">Overall Performance</h4>
                               <p className="text-sm text-muted-foreground">
-                                {student.overallPercentage >= 90 
+                                {(editedStudent?.overallPercentage || student.overallPercentage) >= 90 
                                   ? "Excellent performance. Continue the good work!"
-                                  : student.overallPercentage >= 80
+                                  : (editedStudent?.overallPercentage || student.overallPercentage) >= 80
                                   ? "Very good performance. Keep up the effort!"
                                   : "Good performance. There's room for improvement."}
                               </p>
