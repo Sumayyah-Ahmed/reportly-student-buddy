@@ -208,7 +208,25 @@ const teachers: Teacher[] = [
       },
     ],
   },
-];
+  {
+    id: 6,
+    name: "Mr AA",
+    class: "Class 9A",
+    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop",
+    students: [
+      {
+        id: 1,
+        name: "Emman J",
+        class: "Class 9A",
+        email: "emma.johnson@school.edu",
+        contact: "000-000-0000",
+        overallPercentage: 94.5,
+        attendance: { status: "Good", percentage: 95.0 },
+        subjects: { mathematics: 96, science: 94, english: 94 },
+      },
+],
+  },
+]
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
