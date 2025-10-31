@@ -57,7 +57,7 @@ const teachers: Teacher[] = [
         id: 1,
         name: "Emma Johnson",
         class: "Class 3A",
-        email: "emma.johnson@school.edu",
+        email: "siddiquiaziz71@yahoo.com",
         contact: "000-000-0000",
         overallPercentage: 94.5,
         attendance: { status: "Good", percentage: 95.0 },
