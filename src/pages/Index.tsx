@@ -350,11 +350,11 @@ const Index = () => {
                       </h1>
                     </div>
                   </SelectTrigger>
-                  <SelectContent className="z-50 bg-background border shadow-lg max-w-xs">
+                  <SelectContent className="z-50 bg-background border shadow-lg w-[280px]">
                     {teachers.map((teacher) => (
                       <SelectItem key={teacher.id} value={teacher.id.toString()} className="cursor-pointer">
-                        <div className="flex flex-col gap-1 py-1">
-                          <span className="font-semibold truncate">{teacher.name}</span>
+                        <div className="flex flex-col gap-1 py-1 max-w-full">
+                          <span className="font-semibold truncate max-w-full block">{teacher.name}</span>
                           <span className="text-muted-foreground text-sm">{teacher.class}</span>
                         </div>
                       </SelectItem>
