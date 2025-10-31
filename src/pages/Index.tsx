@@ -348,17 +348,14 @@ const Index = () => {
                       <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground truncate">
                         <SelectValue />
                       </h1>
-                      <p className="text-xs sm:text-sm text-muted-foreground truncate">
-                        {selectedTeacher.class} - {selectedTeacher.students.length} Students
-                      </p>
                     </div>
                   </SelectTrigger>
-                  <SelectContent className="z-50">
+                  <SelectContent className="z-50 bg-background border shadow-lg max-w-xs">
                     {teachers.map((teacher) => (
-                      <SelectItem key={teacher.id} value={teacher.id.toString()}>
-                        <div className="flex items-center gap-2">
-                          <span className="font-semibold">{teacher.name}</span>
-                          <span className="text-muted-foreground text-sm">- {teacher.class}</span>
+                      <SelectItem key={teacher.id} value={teacher.id.toString()} className="cursor-pointer">
+                        <div className="flex flex-col gap-1 py-1">
+                          <span className="font-semibold truncate">{teacher.name}</span>
+                          <span className="text-muted-foreground text-sm">{teacher.class}</span>
                         </div>
                       </SelectItem>
                     ))}
