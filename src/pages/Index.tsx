@@ -51,7 +51,8 @@ const teachers: Teacher[] = [
     id: 1,
     name: "Mr M",
     class: "Class 3A",
-    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop",
+    avatar: "/S.M.png",
+
     students: [
       {
         id: 1,
@@ -181,7 +182,7 @@ const teachers: Teacher[] = [
     id: 5,
     name: "Mrs S",
     class: "Class 7D",
-    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop",
+    avatar: "/H.S.png",
     students: [
       {
         id: 13,
