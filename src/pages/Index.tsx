@@ -32,9 +32,9 @@ interface Student {
     percentage: number;
   };
   subjects: {
-    mathematics: number;
-    science: number;
-    english: number;
+    tajweed: number;
+    fluency: number;
+    behaviour: number;
   };
 }
 
@@ -62,7 +62,7 @@ const teachers: Teacher[] = [
         contact: "000-000-0000",
         overallPercentage: 94.5,
         attendance: { status: "Good", percentage: 95.0 },
-        subjects: { mathematics: 96, science: 94, english: 94 },
+        subjects: { tajweed: 96, fluency: 94, behaviour: 94 },
       },
       {
         id: 2,
@@ -70,7 +70,7 @@ const teachers: Teacher[] = [
         class: "Class 3A",
         overallPercentage: 87.0,
         attendance: { status: "Ok", percentage: 88.0 },
-        subjects: { mathematics: 89, science: 86, english: 86 },
+        subjects: { tajweed: 89, fluency: 86, behaviour: 86 },
       },
       {
         id: 3,
@@ -78,7 +78,7 @@ const teachers: Teacher[] = [
         class: "Class 3A",
         overallPercentage: 91.3,
         attendance: { status: "Good", percentage: 93.0 },
-        subjects: { mathematics: 93, science: 90, english: 91 },
+        subjects: { tajweed: 93, fluency: 90, behaviour: 91 },
       },
     ],
   },
@@ -94,7 +94,7 @@ const teachers: Teacher[] = [
         class: "Class 4B",
         overallPercentage: 85.7,
         attendance: { status: "Ok", percentage: 86.0 },
-        subjects: { mathematics: 87, science: 85, english: 85 },
+        subjects: { tajweed: 87, fluency: 85, behaviour: 85 },
       },
       {
         id: 5,
@@ -102,7 +102,7 @@ const teachers: Teacher[] = [
         class: "Class 4B",
         overallPercentage: 93.7,
         attendance: { status: "Good", percentage: 95.0 },
-        subjects: { mathematics: 95, science: 93, english: 93 },
+        subjects: { tajweed: 95, fluency: 93, behaviour: 93 },
       },
       {
         id: 6,
@@ -110,7 +110,7 @@ const teachers: Teacher[] = [
         class: "Class 4B",
         overallPercentage: 88.3,
         attendance: { status: "Ok", percentage: 89.0 },
-        subjects: { mathematics: 90, science: 87, english: 88 },
+        subjects: { tajweed: 90, fluency: 87, behaviour: 88 },
       },
     ],
   },
@@ -126,7 +126,7 @@ const teachers: Teacher[] = [
         class: "Class 5A",
         overallPercentage: 95.0,
         attendance: { status: "Good", percentage: 96.0 },
-        subjects: { mathematics: 96, science: 95, english: 94 },
+        subjects: { tajweed: 96, fluency: 95, behaviour: 94 },
       },
       {
         id: 8,
@@ -134,7 +134,7 @@ const teachers: Teacher[] = [
         class: "Class 5A",
         overallPercentage: 84.3,
         attendance: { status: "Ok", percentage: 85.0 },
-        subjects: { mathematics: 86, science: 83, english: 84 },
+        subjects: { tajweed: 86, fluency: 83, behaviour: 84 },
       },
       {
         id: 9,
@@ -142,7 +142,7 @@ const teachers: Teacher[] = [
         class: "Class 5A",
         overallPercentage: 90.7,
         attendance: { status: "Good", percentage: 92.0 },
-        subjects: { mathematics: 92, science: 90, english: 90 },
+        subjects: { tajweed: 92, fluency: 90, behaviour: 90 },
       },
     ],
   },
@@ -159,7 +159,7 @@ const teachers: Teacher[] = [
         class: "Class 6C",
         overallPercentage: 89.0,
         attendance: { status: "Good", percentage: 90.0 },
-        subjects: { mathematics: 91, science: 88, english: 88 },
+        subjects: { tajweed: 91, fluency: 88, behaviour: 88 },
       },
       {
         id: 11,
@@ -167,7 +167,7 @@ const teachers: Teacher[] = [
         class: "Class 6C",
         overallPercentage: 94.3,
         attendance: { status: "Good", percentage: 95.0 },
-        subjects: { mathematics: 96, science: 93, english: 94 },
+        subjects: { tajweed: 96, fluency: 93, behaviour: 94 },
       },
       {
         id: 12,
@@ -175,7 +175,7 @@ const teachers: Teacher[] = [
         class: "Class 6C",
         overallPercentage: 86.0,
         attendance: { status: "Ok", percentage: 87.0 },
-        subjects: { mathematics: 88, science: 85, english: 85 },
+        subjects: { tajweed: 88, fluency: 85, behaviour: 85 },
       },
     ],
   },
@@ -191,7 +191,7 @@ const teachers: Teacher[] = [
         class: "Class 7D",
         overallPercentage: 95.7,
         attendance: { status: "Good", percentage: 97.0 },
-        subjects: { mathematics: 97, science: 95, english: 95 },
+        subjects: { tajweed: 97, fluency: 95, behaviour: 95 },
       },
       {
         id: 14,
@@ -199,7 +199,7 @@ const teachers: Teacher[] = [
         class: "Class 7D",
         overallPercentage: 91.0,
         attendance: { status: "Good", percentage: 92.0 },
-        subjects: { mathematics: 93, science: 90, english: 90 },
+        subjects: { tajweed: 93, fluency: 90, behaviour: 90 },
       },
       {
         id: 15,
@@ -207,7 +207,7 @@ const teachers: Teacher[] = [
         class: "Class 7D",
         overallPercentage: 88.7,
         attendance: { status: "Ok", percentage: 89.0 },
-        subjects: { mathematics: 90, science: 88, english: 88 },
+        subjects: { tajweed: 90, fluency: 88, behaviour: 88 },
       },
     ],
   },
@@ -278,7 +278,7 @@ const Index = () => {
     toast.success("Grades updated successfully!");
   };
 
-  const updateSubjectGrade = (subject: 'mathematics' | 'science' | 'english', value: number) => {
+  const updateSubjectGrade = (subject: 'tajweed' | 'fluency' | 'behaviour', value: number) => {
     if (!editedStudent) return;
     
     const updatedStudent = {
@@ -290,7 +290,7 @@ const Index = () => {
     };
 
     // Recalculate overall percentage
-    const avg = (updatedStudent.subjects.mathematics + updatedStudent.subjects.science + updatedStudent.subjects.english) / 3;
+    const avg = (updatedStudent.subjects.tajweed + updatedStudent.subjects.fluency + updatedStudent.subjects.behaviour) / 3;
     updatedStudent.overallPercentage = Math.round(avg * 10) / 10;
 
     setEditedStudent(updatedStudent);
@@ -423,16 +423,16 @@ const Index = () => {
                   {/* Subject Scores */}
                   <div className="space-y-1.5 pt-1">
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-muted-foreground">Mathematics</span>
-                      <span className="text-sm font-bold text-foreground">{student.subjects.mathematics}%</span>
+                      <span className="text-sm text-muted-foreground">Tajweed</span>
+                      <span className="text-sm font-bold text-foreground">{student.subjects.tajweed}%</span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-muted-foreground">Science</span>
-                      <span className="text-sm font-bold text-foreground">{student.subjects.science}%</span>
+                      <span className="text-sm text-muted-foreground">Fluency</span>
+                      <span className="text-sm font-bold text-foreground">{student.subjects.fluency}%</span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-muted-foreground">English</span>
-                      <span className="text-sm font-bold text-foreground">{student.subjects.english}%</span>
+                      <span className="text-sm text-muted-foreground">Behaviour</span>
+                      <span className="text-sm font-bold text-foreground">{student.subjects.behaviour}%</span>
                     </div>
                   </div>
 
@@ -507,81 +507,81 @@ const Index = () => {
                                 </Button>
                               </div>
                               
-                              {/* Mathematics */}
+                              {/* Tajweed */}
                               <div className="space-y-2 p-3 rounded-lg border">
                                 <div className="flex items-center justify-between mb-2">
-                                  <span className="text-sm font-medium text-foreground">Mathematics</span>
+                                  <span className="text-sm font-medium text-foreground">Tajweed</span>
                                   <div className="flex items-center gap-2">
                                     <Input
                                       type="number"
                                       min="0"
                                       max="100"
-                                      value={editedStudent?.subjects.mathematics || student.subjects.mathematics}
-                                      onChange={(e) => updateSubjectGrade('mathematics', Number(e.target.value))}
+                                      value={editedStudent?.subjects.tajweed || student.subjects.tajweed}
+                                      onChange={(e) => updateSubjectGrade('tajweed', Number(e.target.value))}
                                       className="w-16 h-8 text-center"
                                     />
-                                    <Badge className={`${getPercentageBadgeColor(editedStudent?.subjects.mathematics || student.subjects.mathematics)}`}>
-                                      {editedStudent?.subjects.mathematics || student.subjects.mathematics}%
+                                    <Badge className={`${getPercentageBadgeColor(editedStudent?.subjects.tajweed || student.subjects.tajweed)}`}>
+                                      {editedStudent?.subjects.tajweed || student.subjects.tajweed}%
                                     </Badge>
                                   </div>
                                 </div>
                                 <Slider
-                                  value={[editedStudent?.subjects.mathematics || student.subjects.mathematics]}
-                                  onValueChange={(value) => updateSubjectGrade('mathematics', value[0])}
+                                  value={[editedStudent?.subjects.tajweed || student.subjects.tajweed]}
+                                  onValueChange={(value) => updateSubjectGrade('tajweed', value[0])}
                                   max={100}
                                   step={1}
                                   className="w-full"
                                 />
                               </div>
 
-                              {/* Science */}
+                              {/* Fluency */}
                               <div className="space-y-2 p-3 rounded-lg border">
                                 <div className="flex items-center justify-between mb-2">
-                                  <span className="text-sm font-medium text-foreground">Science</span>
+                                  <span className="text-sm font-medium text-foreground">Fluency</span>
                                   <div className="flex items-center gap-2">
                                     <Input
                                       type="number"
                                       min="0"
                                       max="100"
-                                      value={editedStudent?.subjects.science || student.subjects.science}
-                                      onChange={(e) => updateSubjectGrade('science', Number(e.target.value))}
+                                      value={editedStudent?.subjects.fluency || student.subjects.fluency}
+                                      onChange={(e) => updateSubjectGrade('fluency', Number(e.target.value))}
                                       className="w-16 h-8 text-center"
                                     />
-                                    <Badge className={`${getPercentageBadgeColor(editedStudent?.subjects.science || student.subjects.science)}`}>
-                                      {editedStudent?.subjects.science || student.subjects.science}%
+                                    <Badge className={`${getPercentageBadgeColor(editedStudent?.subjects.fluency || student.subjects.fluency)}`}>
+                                      {editedStudent?.subjects.fluency || student.subjects.fluency}%
                                     </Badge>
                                   </div>
                                 </div>
                                 <Slider
-                                  value={[editedStudent?.subjects.science || student.subjects.science]}
-                                  onValueChange={(value) => updateSubjectGrade('science', value[0])}
+                                  value={[editedStudent?.subjects.fluency || student.subjects.fluency]}
+                                  onValueChange={(value) => updateSubjectGrade('fluency', value[0])}
                                   max={100}
                                   step={1}
                                   className="w-full"
                                 />
                               </div>
 
-                              {/* English */}
+                              {/* Behaviour */}
                               <div className="space-y-2 p-3 rounded-lg border">
                                 <div className="flex items-center justify-between mb-2">
-                                  <span className="text-sm font-medium text-foreground">English</span>
+                                  <span className="text-sm font-medium text-foreground">Behaviour</span>
                                   <div className="flex items-center gap-2">
                                     <Input
                                       type="number"
                                       min="0"
                                       max="100"
-                                      value={editedStudent?.subjects.english || student.subjects.english}
-                                      onChange={(e) => updateSubjectGrade('english', Number(e.target.value))}
+                                      value={editedStudent?.subjects.behaviour || student.subjects.behaviour}
+                                      onChange={(e) => updateSubjectGrade('behaviour', Number(e.target.value))}
                                       className="w-16 h-8 text-center"
                                     />
-                                    <Badge className={`${getPercentageBadgeColor(editedStudent?.subjects.english || student.subjects.english)}`}>
-                                      {editedStudent?.subjects.english || student.subjects.english}%
+                                    <Badge className={`${getPercentageBadgeColor(editedStudent?.subjects.behaviour || student.subjects.behaviour)}`}>
+                                      {editedStudent?.subjects.behaviour || student.subjects.behaviour}%
                                     </Badge>
                                   </div>
                                 </div>
                                 <Slider
-                                  value={[editedStudent?.subjects.english || student.subjects.english]}
-                                  onValueChange={(value) => updateSubjectGrade('english', value[0])}
+                                  value={[editedStudent?.subjects.behaviour || student.subjects.behaviour]}
+                                  onValueChange={(value) => updateSubjectGrade('behaviour', value[0])}
                                   max={100}
                                   step={1}
                                   className="w-full"
