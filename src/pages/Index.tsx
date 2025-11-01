@@ -49,7 +49,7 @@ interface Teacher {
 const teachers: Teacher[] = [
   {
     id: 1,
-    name: "Sheikh Mahmoud Ali",
+    name: "Sheikh Mahmoud",
     class: "Class 3A",
     avatar: "/S.M.png",
 
@@ -148,7 +148,7 @@ const teachers: Teacher[] = [
   },
   {
     id: 4,
-    name: "Mu'allimah Fauzia Yawar",
+    name: "Mu'allimah Fauzia",
     class: "Class 6C",
     avatar: "/M.F.png",
 
@@ -181,7 +181,7 @@ const teachers: Teacher[] = [
   },
   {
     id: 5,
-    name: "Hafida Sumayyah Ahmed",
+    name: "Hafida Sumayyah",
     class: "Class 7D",
     avatar: "/H.S.png",
     students: [
