@@ -56,7 +56,7 @@ const teachers: Teacher[] = [
     students: [
       {
         id: 1,
-        name: "Emma Johnson",
+        name: "Muhammad Younus",
         class: "Class 3A",
         email: "siddiquiaziz71@yahoo.com",
         contact: "000-000-0000",
@@ -66,7 +66,7 @@ const teachers: Teacher[] = [
       },
       {
         id: 2,
-        name: "Liam Williams",
+        name: "Muhammad Yousuf",
         class: "Class 3A",
         overallPercentage: 87.0,
         attendance: { status: "Ok", percentage: 88.0 },
@@ -74,7 +74,7 @@ const teachers: Teacher[] = [
       },
       {
         id: 3,
-        name: "Olivia Brown",
+        name: "Hassam Asif",
         class: "Class 3A",
         overallPercentage: 91.3,
         attendance: { status: "Good", percentage: 93.0 },
@@ -90,7 +90,7 @@ const teachers: Teacher[] = [
     students: [
       {
         id: 4,
-        name: "Noah Davis",
+        name: "Musa Qureshi",
         class: "Class 4B",
         overallPercentage: 85.7,
         attendance: { status: "Ok", percentage: 86.0 },
@@ -98,7 +98,7 @@ const teachers: Teacher[] = [
       },
       {
         id: 5,
-        name: "Ava Martinez",
+        name: "Zakariya Idrees",
         class: "Class 4B",
         overallPercentage: 93.7,
         attendance: { status: "Good", percentage: 95.0 },
@@ -106,7 +106,7 @@ const teachers: Teacher[] = [
       },
       {
         id: 6,
-        name: "Sophia Garcia",
+        name: "Hakeem Qader",
         class: "Class 4B",
         overallPercentage: 88.3,
         attendance: { status: "Ok", percentage: 89.0 },
@@ -122,7 +122,7 @@ const teachers: Teacher[] = [
     students: [
       {
         id: 7,
-        name: "Isabella Rodriguez",
+        name: "Amber Qader",
         class: "Class 5A",
         overallPercentage: 95.0,
         attendance: { status: "Good", percentage: 96.0 },
@@ -130,7 +130,7 @@ const teachers: Teacher[] = [
       },
       {
         id: 8,
-        name: "Mason Wilson",
+        name: "Eesa Choudhury",
         class: "Class 5A",
         overallPercentage: 84.3,
         attendance: { status: "Ok", percentage: 85.0 },
@@ -138,7 +138,7 @@ const teachers: Teacher[] = [
       },
       {
         id: 9,
-        name: "Mia Anderson",
+        name: "Manahil Qureshi",
         class: "Class 5A",
         overallPercentage: 90.7,
         attendance: { status: "Good", percentage: 92.0 },
@@ -155,7 +155,7 @@ const teachers: Teacher[] = [
     students: [
       {
         id: 10,
-        name: "James Taylor",
+        name: "Jenneh Bensehil",
         class: "Class 6C",
         overallPercentage: 89.0,
         attendance: { status: "Good", percentage: 90.0 },
@@ -163,7 +163,7 @@ const teachers: Teacher[] = [
       },
       {
         id: 11,
-        name: "Charlotte Thomas",
+        name: "Mohammed Siddiqui",
         class: "Class 6C",
         overallPercentage: 94.3,
         attendance: { status: "Good", percentage: 95.0 },
@@ -171,7 +171,7 @@ const teachers: Teacher[] = [
       },
       {
         id: 12,
-        name: "Benjamin Moore",
+        name: "Aahil Amin",
         class: "Class 6C",
         overallPercentage: 86.0,
         attendance: { status: "Ok", percentage: 87.0 },
@@ -187,7 +187,7 @@ const teachers: Teacher[] = [
     students: [
       {
         id: 13,
-        name: "Amelia Jackson",
+        name: "Yasmin Sheikh",
         class: "Class 7D",
         overallPercentage: 95.7,
         attendance: { status: "Good", percentage: 97.0 },
@@ -195,7 +195,7 @@ const teachers: Teacher[] = [
       },
       {
         id: 14,
-        name: "Lucas Martin",
+        name: "Rushda Khan",
         class: "Class 7D",
         overallPercentage: 91.0,
         attendance: { status: "Good", percentage: 92.0 },
@@ -203,7 +203,7 @@ const teachers: Teacher[] = [
       },
       {
         id: 15,
-        name: "Harper Lee",
+        name: "Muhammad Taj",
         class: "Class 7D",
         overallPercentage: 88.7,
         attendance: { status: "Ok", percentage: 89.0 },
