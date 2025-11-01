@@ -49,7 +49,7 @@ interface Teacher {
 const teachers: Teacher[] = [
   {
     id: 1,
-    name: "Mr M",
+    name: "Sheikh Mahmoud Ali",
     class: "Class 3A",
     avatar: "/S.M.png",
 
@@ -84,9 +84,9 @@ const teachers: Teacher[] = [
   },
   {
     id: 2,
-    name: "Mr N",
+    name: "Sheikh Noor Ali",
     class: "Class 4B",
-    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop",
+    avatar: "/S.N.png",
     students: [
       {
         id: 4,
@@ -116,9 +116,9 @@ const teachers: Teacher[] = [
   },
   {
     id: 3,
-    name: "Mrs B",
+    name: "Hafida Bouchra Rehich",
     class: "Class 5A",
-    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop",
+    avatar: "/H.B.png",
     students: [
       {
         id: 7,
@@ -148,9 +148,10 @@ const teachers: Teacher[] = [
   },
   {
     id: 4,
-    name: "Mrs F",
+    name: "Mu'allimah Fauzia Yawar",
     class: "Class 6C",
-    avatar: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=150&h=150&fit=crop",
+    avatar: "/M.F.png",
+
     students: [
       {
         id: 10,
@@ -180,7 +181,7 @@ const teachers: Teacher[] = [
   },
   {
     id: 5,
-    name: "Mrs S",
+    name: "Hafida Sumayyah Ahmed",
     class: "Class 7D",
     avatar: "/H.S.png",
     students: [
@@ -209,24 +210,6 @@ const teachers: Teacher[] = [
         subjects: { mathematics: 90, science: 88, english: 88 },
       },
     ],
-  },
-  {
-    id: 6,
-    name: "Mr AA",
-    class: "Class 9A",
-    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop",
-    students: [
-      {
-        id: 1,
-        name: "Emman J",
-        class: "Class 9A",
-        email: "emma.johnson@school.edu",
-        contact: "000-000-0000",
-        overallPercentage: 94.5,
-        attendance: { status: "Good", percentage: 95.0 },
-        subjects: { mathematics: 96, science: 94, english: 94 },
-      },
-],
   },
 ]
 
